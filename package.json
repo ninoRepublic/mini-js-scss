@@ -2,7 +2,7 @@
   "name": "mini-js-scss",
   "displayName": "Mini JS SCSS",
   "description": "Auto compile SCSS to CSS and minify JS on save, with obfuscation via context menu",
-  "version": "1.96.33",
+  "version": "2.96.33",
   "publisher": "hello-nino",
   "license": "MIT",
   "repository": {
@@ -42,7 +42,7 @@
     "onLanguage:scss",
     "onLanguage:javascript"
   ],
-  "main": "./src/extension.js",
+  "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
@@ -104,17 +104,19 @@
     "lint": "eslint .",
     "pretest": "npm run lint",
     "test": "node ./test/runTest.js",
-    "package": "vsce package",
+    "build": "node esbuild.config.js --production",
+    "package": "npm install && npm run build && npm prune --production && vsce package",
     "publish": "vsce publish"
   },
   "devDependencies": {
-    "eslint": "^8.57.0",
     "@vscode/test-electron": "^2.3.8",
-    "@vscode/vsce": "^2.24.0"
+    "@vscode/vsce": "^2.24.0",
+    "esbuild": "^0.28.1",
+    "eslint": "^8.57.0"
   },
   "dependencies": {
+    "javascript-obfuscator": "^4.1.0",
     "sass": "^1.77.0",
-    "terser": "^5.31.0",
-    "javascript-obfuscator": "^4.1.0"
+    "terser": "^5.31.0"
   }
 }
