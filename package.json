@@ -1,0 +1,120 @@
+{
+  "name": "mini-js-scss",
+  "displayName": "Mini JS SCSS",
+  "description": "Auto compile SCSS to CSS and minify JS on save, with obfuscation via context menu",
+  "version": "1.96.33",
+  "publisher": "hello-nino",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ninoRepublic/mini-js-scss"
+  },
+  "bugs": {
+    "url": "https://github.com/ninoRepublic/mini-js-scss/issues"
+  },
+  "homepage": "https://github.com/ninoRepublic/mini-js-scss#readme",
+  "icon": "assets/icon.png",
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Formatters",
+    "Other"
+  ],
+  "keywords": [
+    "scss",
+    "sass",
+    "css",
+    "minify",
+    "obfuscate",
+    "javascript",
+    "js",
+    "compiler",
+    "sourcemap"
+  ],
+  "activationEvents": [
+    "onCommand:mini-js-scss.obfuscateJs",
+    "onCommand:mini-js-scss.minifyCss",
+    "onLanguage:scss",
+    "onLanguage:javascript"
+  ],
+  "main": "./src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "mini-js-scss.obfuscateJs",
+        "title": "🍑JS加密"
+      },
+      {
+        "command": "mini-js-scss.minifyCss",
+        "title": "🍑CSS压缩"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "mini-js-scss.obfuscateJs",
+          "when": "resourceExtname == .js",
+          "group": "mini-js-scss@1"
+        },
+        {
+          "command": "mini-js-scss.minifyCss",
+          "when": "resourceExtname == .css",
+          "group": "mini-js-scss@2"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Mini JS SCSS",
+      "properties": {
+        "mini-js-scss.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable the extension globally"
+        },
+        "mini-js-scss.scss.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable SCSS compilation"
+        },
+        "mini-js-scss.js.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable JS processing"
+        },
+        "mini-js-scss.logFunctions": {
+          "type": "array",
+          "default": [
+            "console.log",
+            "cm.log"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "List of function calls to remove during JS compression"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "node ./test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "@vscode/test-electron": "^2.3.8",
+    "@vscode/vsce": "^2.24.0"
+  },
+  "dependencies": {
+    "sass": "^1.77.0",
+    "terser": "^5.31.0",
+    "javascript-obfuscator": "^4.1.0"
+  }
+}
