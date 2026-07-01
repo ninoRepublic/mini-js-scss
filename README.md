@@ -1,6 +1,6 @@
 # Mini JS SCSS
 
-[![Version](https://img.shields.io/badge/version-1.96.33-blue)](https://github.com/ninoRepublic/mini-js-scss)
+[![Version](https://img.shields.io/badge/version-2.96.33-blue)](https://github.com/ninoRepublic/mini-js-scss)
 [![VS Code Engine](https://img.shields.io/badge/vscode-%5E1.80.0-007ACC)](https://code.visualstudio.com)
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/ninoRepublic/mini-js-scss/blob/main/LICENSE)
 
