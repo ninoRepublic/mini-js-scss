@@ -1,6 +1,6 @@
 const vscode = require('vscode');
 const { compileScss, minifyCss } = require('./scss-processor');
-const { processJs, obfuscateJs } = require('./js-processor');
+const { processJs, obfuscateJs, obfuscateJsHigh, obfuscateJsMedium } = require('./js-processor');
 const fs = require('fs');
 const path = require('path');
 
@@ -117,6 +117,50 @@ function activate(context) {
     }
   });
 
+  // 右键菜单：🍑JS加密-高
+  const obfuscateJsHighDisposable = vscode.commands.registerCommand('mini-js-scss.obfuscateJsHigh', async (uri) => {
+    if (!uri || !uri.fsPath) {
+      return;
+    }
+
+    const filePath = uri.fsPath;
+
+    if (!filePath.endsWith('.js') || filePath.endsWith('.min.js')) {
+      return;
+    }
+
+    try {
+      const config = vscode.workspace.getConfiguration(EXTENSION_NAME);
+      const pureFuncs = config.get('logFunctions', ['console.log', 'cm.log']);
+      await obfuscateJsHigh(filePath, { pureFuncs });
+      vscode.window.showInformationMessage('🍑JS加密-高 成功');
+    } catch (err) {
+      vscode.window.showErrorMessage(`JS加密-高失败: ${err.message}`);
+    }
+  });
+
+  // 右键菜单：🍑JS加密-中
+  const obfuscateJsMediumDisposable = vscode.commands.registerCommand('mini-js-scss.obfuscateJsMedium', async (uri) => {
+    if (!uri || !uri.fsPath) {
+      return;
+    }
+
+    const filePath = uri.fsPath;
+
+    if (!filePath.endsWith('.js') || filePath.endsWith('.min.js')) {
+      return;
+    }
+
+    try {
+      const config = vscode.workspace.getConfiguration(EXTENSION_NAME);
+      const pureFuncs = config.get('logFunctions', ['console.log', 'cm.log']);
+      await obfuscateJsMedium(filePath, { pureFuncs });
+      vscode.window.showInformationMessage('🍑JS加密-中 成功');
+    } catch (err) {
+      vscode.window.showErrorMessage(`JS加密-中失败: ${err.message}`);
+    }
+  });
+
   // 右键菜单：🍑CSS压缩
   const minifyCssDisposable = vscode.commands.registerCommand('mini-js-scss.minifyCss', async (uri) => {
     if (!uri || !uri.fsPath) {
@@ -137,7 +181,7 @@ function activate(context) {
     }
   });
 
-  context.subscriptions.push(saveDisposable, obfuscateDisposable, minifyCssDisposable);
+  context.subscriptions.push(saveDisposable, obfuscateDisposable, obfuscateJsHighDisposable, obfuscateJsMediumDisposable, minifyCssDisposable);
   console.log(`[${EXTENSION_NAME}] ========== Extension ACTIVATED ==========`);
 }
 

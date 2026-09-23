@@ -2,7 +2,7 @@
   "name": "mini-js-scss",
   "displayName": "Mini JS SCSS",
   "description": "Auto compile SCSS to CSS and minify JS on save, with obfuscation via context menu",
-  "version": "2.96.33",
+  "version": "3.96.33",
   "publisher": "hello-nino",
   "license": "MIT",
   "repository": {
@@ -38,6 +38,8 @@
   ],
   "activationEvents": [
     "onCommand:mini-js-scss.obfuscateJs",
+    "onCommand:mini-js-scss.obfuscateJsMedium",
+    "onCommand:mini-js-scss.obfuscateJsHigh",
     "onCommand:mini-js-scss.minifyCss",
     "onLanguage:scss",
     "onLanguage:javascript"
@@ -48,6 +50,14 @@
       {
         "command": "mini-js-scss.obfuscateJs",
         "title": "🍑JS加密"
+      },
+      {
+        "command": "mini-js-scss.obfuscateJsMedium",
+        "title": "🍑JS加密-中"
+      },
+      {
+        "command": "mini-js-scss.obfuscateJsHigh",
+        "title": "🍑JS加密-高"
       },
       {
         "command": "mini-js-scss.minifyCss",
@@ -62,9 +72,19 @@
           "group": "mini-js-scss@1"
         },
         {
+          "command": "mini-js-scss.obfuscateJsMedium",
+          "when": "resourceExtname == .js",
+          "group": "mini-js-scss@2"
+        },
+        {
+          "command": "mini-js-scss.obfuscateJsHigh",
+          "when": "resourceExtname == .js",
+          "group": "mini-js-scss@3"
+        },
+        {
           "command": "mini-js-scss.minifyCss",
           "when": "resourceExtname == .css",
-          "group": "mini-js-scss@2"
+          "group": "mini-js-scss@4"
         }
       ]
     },

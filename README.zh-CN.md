@@ -1,6 +1,6 @@
 # Mini JS SCSS
 
-[![Version](https://img.shields.io/badge/version-0.9.6-blue)](https://github.com/ninoRepublic/mini-js-scss)
+[![Version](https://img.shields.io/badge/version-3.96.33-blue)](https://github.com/ninoRepublic/mini-js-scss)
 [![VS Code Engine](https://img.shields.io/badge/vscode-%5E1.80.0-007ACC)](https://code.visualstudio.com)
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/ninoRepublic/mini-js-scss/blob/main/LICENSE)
 
@@ -52,7 +52,13 @@ scripts/
 
 ### 右键菜单加密 JS
 
-在文件资源管理器中右键点击 `.js` 文件，选择 **🍑JS加密**，即可对文件进行压缩 + 混淆处理：
+在文件资源管理器中右键点击 `.js` 文件，可选择以下加密强度：
+
+- **🍑JS加密**：默认强度，适合追求较小文件体积的场景。
+- **🍑JS加密-中**：加强控制流、字符串编码和对象键转换，兼顾防护能力与文件体积。
+- **🍑JS加密-高**：最高强度，适合对防护要求极高的场景，生成文件会更大。
+
+三种方式都会进行压缩 + 混淆处理：
 
 1. 先通过 Terser 压缩代码并移除调试语句
 2. 再通过 javascript-obfuscator 进行控制流扁平化和字符串数组化混淆
@@ -98,21 +104,23 @@ scripts/
 
 ## 📝 更新日志
 
-### 1.0.1
+### 3.96.33
 
-- 优化激活事件，提升 VS Code 启动性能
-- 将激活事件从 `"*"` 改为特定事件：`onCommand`、`onLanguage:scss`、`onLanguage:javascript`
-- 扩展现在仅在需要时激活（打开 SCSS/JS 文件或使用右键菜单命令）
+- 迁移至 **esbuild** 打包工具 — VSIX 包从 13.39 MB（6177 个文件）缩减到 **1.33 MB**（7 个文件）
+- 代码打包为单一 `dist/extension.js`，不再随扩展分发完整的 `node_modules`
+- 修复 `.vscodeignore`，正确排除开发依赖和系统文件
+
+### 2.96.33
+
+- 新增三档 JS 加密强度：普通 / 中 / 高
+- 优化激活事件 — 按需加载，提升 VS Code 启动性能
 
 ### 1.0.0
 
-- SCSS 编译，支持 Source Map
-- JS 压缩（通过 Terser），支持移除 `console.log` / `cm.log`
-- JS 混淆（通过 javascript-obfuscator）
-- 右键菜单 🍑JS加密 功能
-- 右键菜单 🍑CSS压缩 功能
+- 首次发布：SCSS 编译、JS 压缩、JS 混淆、CSS 压缩
+- CSS 和 JS 均支持 Source Map
+- 构建工具自动检测（Webpack、Vite、Rollup 等）
 - 可通过 VS Code 设置灵活配置
-- 自动排除 `node_modules` 目录
 
 ## ⚠️ 已知问题
 

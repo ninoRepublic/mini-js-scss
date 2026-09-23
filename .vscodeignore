@@ -17,5 +17,6 @@ package-lock.json
 tsconfig.json
 .vscode-test/**
 esbuild.config.js
-!assets/**
+assets/*
+!assets/icon.png
 !dist/**

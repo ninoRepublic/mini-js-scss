@@ -1,6 +1,6 @@
 # Mini JS SCSS
 
-[![Version](https://img.shields.io/badge/version-2.96.33-blue)](https://github.com/ninoRepublic/mini-js-scss)
+[![Version](https://img.shields.io/badge/version-3.96.33-blue)](https://github.com/ninoRepublic/mini-js-scss)
 [![VS Code Engine](https://img.shields.io/badge/vscode-%5E1.80.0-007ACC)](https://code.visualstudio.com)
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/ninoRepublic/mini-js-scss/blob/main/LICENSE)
 
@@ -12,7 +12,7 @@ Auto compile SCSS to CSS and minify/obfuscate JavaScript on save, with source ma
 
 - **SCSS → CSS** — Compiles `.scss` to `.min.css` with source map on save
 - **JS Minify** — Compresses JavaScript, strips `console.log` / `cm.log`, outputs `.min.js` with source map
-- **JS Obfuscate** — Right-click menu to encrypt JS files with control flow flattening and string array transformation
+- **JS Obfuscate** — Right-click menu to encrypt JS files with three intensity levels (Normal / Medium / High)
 - **CSS Minify** — Right-click menu to compress CSS files, generating `.min.css` and source map
 - **Source Maps** — Generates `.map` files for both CSS and JS debugging
 - **Zero Config** — Works immediately after installation; all features are toggleable via settings
@@ -52,11 +52,13 @@ This prevents conflicts with your project's existing build pipeline.
 
 ### Right-click Menu: JS Obfuscation
 
-Right-click a `.js` file in the explorer and select **🍑JS加密** to compress and obfuscate it:
+Right-click a `.js` file in the explorer and choose from three intensity levels:
 
-1. Terser compresses the code and strips debug statements
-2. javascript-obfuscator applies control flow flattening and string array transformation
-3. Output is saved as `.min.js` in the same directory
+- **🍑JS加密 (Normal)** — Default level with control flow flattening and string array transformation. Best balance of protection and file size.
+- **🍑JS加密-中 (Medium)** — Enhanced obfuscation with hex identifiers, base64 string encoding, object key transformation. Stronger protection with moderate size increase.
+- **🍑JS加密-高 (High)** — Maximum protection including dead code injection, debug protection, self-defending, and full string array wrappers. Larger output size but strongest defense.
+
+All three modes run Terser compression first, then apply javascript-obfuscator encryption. Output is saved as `.min.js` in the same directory.
 
 ### Right-click Menu: CSS Minification
 
@@ -98,21 +100,23 @@ Add custom log functions for removal:
 
 ## Release Notes
 
-### 1.0.1
+### 3.96.33
 
-- Optimized activation events for better VS Code startup performance
-- Changed from `"*"` activation to specific events: `onCommand`, `onLanguage:scss`, `onLanguage:javascript`
-- Extension now only activates when needed (opening SCSS/JS files or using context menu commands)
+- Migrated to **esbuild** bundler — VSIX reduced from 13.39 MB (6177 files) to **1.33 MB** (7 files)
+- Code bundled into single `dist/extension.js`, external `node_modules` no longer shipped
+- Fixed `.vscodeignore` to properly exclude dev dependencies and system files
+
+### 2.96.33
+
+- Added three-tier JS obfuscation: Normal / Medium / High intensity
+- Optimized activation events — extension only loads on demand
 
 ### 1.0.0
 
-- SCSS compilation with source maps
-- JS minification (via terser) with `console.log` / `cm.log` stripping
-- JS obfuscation (via javascript-obfuscator)
-- Right-click menu 🍑JS加密 command
-- Right-click menu 🍑CSS压缩 command
+- Initial release: SCSS compilation, JS minification, JS obfuscation, CSS minification
+- Source map support for both CSS and JS
+- Build tool auto-detection (Webpack, Vite, Rollup, etc.)
 - Configurable via VS Code settings
-- `node_modules` exclusion
 
 ## Known Issues
 

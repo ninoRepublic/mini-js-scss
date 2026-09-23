@@ -71,4 +71,108 @@ async function obfuscateJs(inputPath, options = {}) {
   return { outputPath };
 }
 
-module.exports = { processJs, obfuscateJs };
+async function obfuscateJsHigh(inputPath, options = {}) {
+  const absoluteInputPath = path.resolve(inputPath);
+  const dir = path.dirname(absoluteInputPath);
+  const basename = path.basename(absoluteInputPath, '.js');
+  const outputPath = path.join(dir, `${basename}.min.js`);
+
+  const code = fs.readFileSync(inputPath, 'utf8');
+  const pureFuncs = options.pureFuncs || ['console.log', 'cm.log'];
+
+  const terserResult = await terser.minify({ [basename + '.js']: code }, {
+    compress: { pure_funcs: pureFuncs },
+    mangle: true,
+    sourceMap: false,
+  });
+
+  if (terserResult.error) {
+    throw terserResult.error;
+  }
+
+  const obfuscationOptions = {
+    compact: true,
+    identifierNamesGenerator: 'hexadecimal',
+    controlFlowFlattening: true,
+    controlFlowFlatteningThreshold: 1,
+    deadCodeInjection: true,
+    deadCodeInjectionThreshold: 1,
+    debugProtection: true,
+    debugProtectionInterval: 2000,
+    disableConsoleOutput: true,
+    numbersToExpressions: true,
+    renameGlobals: true,
+    selfDefending: true,
+    simplify: false,
+    splitStrings: true,
+    splitStringsChunkLength: 3,
+    stringArray: true,
+    stringArrayEncoding: ['base64'],
+    stringArrayThreshold: 1,
+    stringArrayIndexShift: true,
+    stringArrayRotate: true,
+    stringArrayShuffle: true,
+    stringArrayWrappersCount: 5,
+    stringArrayWrappersChainedCalls: true,
+    stringArrayWrappersParametersMaxCount: 4,
+    stringArrayWrappersType: 'function',
+    transformObjectKeys: true,
+    sourceMap: false,
+  };
+
+  const obfuscationResult = JavaScriptObfuscator.obfuscate(terserResult.code, obfuscationOptions);
+  const finalCode = obfuscationResult.getObfuscatedCode();
+
+  fs.writeFileSync(outputPath, finalCode);
+
+  return { outputPath };
+}
+
+async function obfuscateJsMedium(inputPath, options = {}) {
+  const absoluteInputPath = path.resolve(inputPath);
+  const dir = path.dirname(absoluteInputPath);
+  const basename = path.basename(absoluteInputPath, '.js');
+  const outputPath = path.join(dir, `${basename}.min.js`);
+
+  const code = fs.readFileSync(inputPath, 'utf8');
+  const pureFuncs = options.pureFuncs || ['console.log', 'cm.log'];
+
+  const terserResult = await terser.minify({ [basename + '.js']: code }, {
+    compress: { pure_funcs: pureFuncs },
+    mangle: true,
+    sourceMap: false,
+  });
+
+  if (terserResult.error) {
+    throw terserResult.error;
+  }
+
+  const obfuscationOptions = {
+    compact: true,
+    identifierNamesGenerator: 'hexadecimal',
+    controlFlowFlattening: true,
+    controlFlowFlatteningThreshold: 1,
+    numbersToExpressions: true,
+    stringArray: true,
+    stringArrayEncoding: ['base64'],
+    stringArrayThreshold: 0.75,
+    stringArrayIndexShift: true,
+    stringArrayRotate: true,
+    stringArrayShuffle: true,
+    stringArrayWrappersCount: 2,
+    stringArrayWrappersChainedCalls: true,
+    stringArrayWrappersParametersMaxCount: 2,
+    stringArrayWrappersType: 'function',
+    transformObjectKeys: true,
+    sourceMap: false,
+  };
+
+  const obfuscationResult = JavaScriptObfuscator.obfuscate(terserResult.code, obfuscationOptions);
+  const finalCode = obfuscationResult.getObfuscatedCode();
+
+  fs.writeFileSync(outputPath, finalCode);
+
+  return { outputPath };
+}
+
+module.exports = { processJs, obfuscateJs, obfuscateJsHigh, obfuscateJsMedium };
